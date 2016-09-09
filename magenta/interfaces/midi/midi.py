@@ -754,7 +754,7 @@ def main(unused_argv):
       FLAGS.checkpoint,
       FLAGS.bundle_file)
   hub = MonoMidiHub(FLAGS.input_port, FLAGS.output_port)
-  
+
   #TODO(hanzorama) don't use globals
   global _TICK_COUNTER
 
@@ -769,8 +769,9 @@ def main(unused_argv):
   # Determines where in the bar the updated sequence is played from
   refresh_point = 1
   captured_sequence = hub.flash_capture()
+  loop_start_time = time.time()
 
-  while True:
+  while time.time() - loop_start_time < 60:
     while len(captured_sequence.notes) == prev_sequence_length \
             or (3.75 > _TICK_COUNTER % 4 > 1):
       captured_sequence = hub.flash_capture()
